@@ -5,16 +5,16 @@ services:
     ports:
       - "8080:8080"
       - "5000:5000"
+      - "50000:50000"
     volumes:
       - ./jenkins:/var/jenkins_home
 services:
   jenkins_server:
     image: "registry.jala.info/devops/jenkins/jnlp-slave:3.27-1-alpine"
-    arg:
-      - -url  
-      - https://jenkins.server:5000
-      - workDir /home/jenkins/agent
-      - <secret>
-      - <agent name>
-  
-          
+    enviroment:
+      JENKINS_URL = https://jenkins.server:50000
+      JENKINS_SECRET
+      JENKINS_AGENT_NAME =slavel01
+      ENKINS_AGENT_WORKDIR= /home/jenkins/agent
+    volumenes:
+      -./jenkins:/var/jenkins_home
