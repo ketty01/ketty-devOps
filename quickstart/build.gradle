@@ -29,3 +29,9 @@ uploadArchives {
        }
     }
 }
+
+task task1 { 
+    doLast {
+      println "This is a new task." 
+    }
+}
