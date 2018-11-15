@@ -8,13 +8,27 @@ services:
       - "50000:50000"
     volumes:
       - ./jenkins:/var/jenkins_home
-services:
-  jenkins_server:
-    image: "registry.jala.info/devops/jenkins/jnlp-slave:3.27-1-alpine"
-    enviroment:
-      JENKINS_URL = https://jenkins.server:50000
-      JENKINS_SECRET
-      JENKINS_AGENT_NAME =slavel01
-      ENKINS_AGENT_WORKDIR= /home/jenkins/agent
-    volumenes:
-      -./jenkins:/var/jenkins_home
+
+  server_Gocd:
+    image: "registry.jala.info/devops/gocd/gocd-server:v18.1.0"
+    ports:
+      - "8153:8153"
+      - "8154:8154"
+    links:
+     - agent_Gocd
+
+  agent_Gocd:
+    image: "registry.jala.info/devops/gocd/gocd-agent-alpine-3.7:v18.1.0"
+    environment:
+      - GO_SERVER_URL=https://gocd_server:8154/go
+    volumes:
+      - ./dataGo:/dataGo
+      - ./go:/home/go
+
+  sonarqube:
+    image: "registry.jala.info/devops/sonarqube:6.7.4-alpine"
+    ports:
+      - "9000:9000"
+      - "9092:9092"
+    links:
+      - agent_Gocd
