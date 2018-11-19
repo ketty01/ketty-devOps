@@ -2,7 +2,7 @@ format_version: 3
 
 pipelines:
 
-  fa-quickstart-ci:
+  kc-quickstart-ci:
 
     group: Application
 
@@ -10,7 +10,7 @@ pipelines:
 
       repo:
 
-        git: https://github.com/devops-at07/FA_TRAINER.git
+        git: https://github.com/devops-at07/ketty-devOps.git
 
         branch: master
 
