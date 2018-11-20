@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'jacoco'
 
 version = '1.0'
 jar {
@@ -29,3 +30,28 @@ uploadArchives {
        }
     }
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
+
+buildscript {
+        repositories {
+                mavenLocal()
+                jcenter()
+                maven {
+                        url "https://plugins.gradle.org/m2/"
+                }
+        }
+        dependencies {
+                classpath group: "org.sonarsource.scanner.gradle", name:"sonarqube-gradle-plugin", version:"2.5"
+        }
+}
+
+group = 'com.test.sonarqube.gradle'
+apply plugin: "org.sonarqube"
