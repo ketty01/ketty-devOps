@@ -1,3 +1,8 @@
+plugins {
+  id "org.sonarqube" version "2.6.2"
+  id "org.owasp.dependencycheck" version "3.3.4"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
@@ -39,19 +44,3 @@ jacocoTestReport {
 }
 
 check.dependsOn jacocoTestReport
-
-buildscript {
-        repositories {
-                mavenLocal()
-                jcenter()
-                maven {
-                        url "https://plugins.gradle.org/m2/"
-                }
-        }
-        dependencies {
-                classpath group: "org.sonarsource.scanner.gradle", name:"sonarqube-gradle-plugin", version:"2.5"
-        }
-}
-
-group = 'com.test.sonarqube.gradle'
-apply plugin: "org.sonarqube"
