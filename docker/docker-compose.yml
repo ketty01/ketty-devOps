@@ -15,7 +15,7 @@ services:
       - "8153:8153"
       - "8154:8154"
     links:
-     - agent_Gocd
+     - gocd_agent
 
   gocd_agent:
     image: "registry.jala.info/devops/gocd/gocd-agent-alpine-3.7:v18.1.0"
@@ -31,5 +31,5 @@ services:
       - "9000:9000"
       - "9092:9092"
     links:
-      - agent_Gocd
+      - gocd_agent
       
