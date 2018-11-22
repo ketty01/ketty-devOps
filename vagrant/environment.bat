@@ -7,6 +7,6 @@ set OS_USERNAME=kettycamacho
 set OS_PASSWORD=KKKK0102018c
 set OS_DOMAIN_NAME=fundacion-jala
 set OS_FLAVOR=f4.lab.largea
-set OS_IMAGE=ubuntu-14.04-amd64-server_18062018
+set OS_IMAGE=ubuntu-16.04-amd64-server_18062018
 set OS_KEY_PAIR_NAME=windowsk
 set OS_REGION_NAME=bootstack-jalasoft
