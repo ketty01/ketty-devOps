@@ -17,7 +17,7 @@ pipeline{
 		stage('Publish'){
 			steps{
 				echo 'Publishing Artifact'
-				sh './gradlew uploadArchives -p quickstart'
+				sh './quickstart/gradlew uploadArchives -p quickstart'
 				archiveArtifacts artifacts: '**/repos/*.jar'
 			}
 		}
@@ -31,15 +31,22 @@ pipeline{
 		stage('Testing_webapplication'){
 			steps{
 				sh './webapplication/gradlew test -p webapplication'
-				archiveArtifacts artifacts: '**/reports/tests/test/*.hml'
+				junit '**/test-results/test/*.xml'
+				archiveArtifacts artifacts: '**/reports/tests/test/*.html'
 			}
 		}
 		stage('Security_webapplication'){
 			steps{
-				sh './webapplication/gradlew sonarqube'
-				sh './webapplication/gradlew dependencyCheckAnalyze'
-				archiveArtifacts artifacts: '**/repos/*.war'
+				sh './webapplication/gradlew sonarqube -p webapplication'
+				sh './webapplication/gradlew dependencyCheckAnalyze -p webapplication'
+				archiveArtifacts artifacts: '**/repos/*.html'
 			}
 		}
+		stage('Deploy_webapplication'){
+            steps{
+                echo 'Deployment'
+                sh './webapplication/gradlew -b deploy.gradle copyWar -p webapplication'
+            }
+        }
 	}
 }
