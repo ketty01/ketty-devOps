@@ -21,23 +21,23 @@ pipeline{
 				archiveArtifacts artifacts: '**/repos/*.jar'
 			}
 		}
-		stage('Build'){
+		stage('Build_webapplication'){
 			steps{
 				sh './webapplication/gradlew clean assemble -p webapplication'
 				sh './webapplication/gradlew uploadArchives -p webapplication'
 				archiveArtifacts artifacts: '**/repos/*.war'
 			}
 		}
-		stage('Testing'){
+		stage('Testing_webapplication'){
 			steps{
 				sh './webapplication/gradlew test -p webapplication'
 				junit '**/reports/tests/test/*.hml'
 			}
 		}
-		stage('Security'){
+		stage('Security_webapplication'){
 			steps{
 				sh './webapplication/gradlew sonarqube'
-				sh './webapplication/gradlew dependencyCheckAnalyze
+				sh './webapplication/gradlew dependencyCheckAnalyze'
 				archiveArtifacts artifacts: '**/repos/*.war'
 			}
 		}
