@@ -43,9 +43,9 @@ pipeline{
 			}
 		}
 		stage('Deploy_webapplication'){
-      steps{
-      	sh './webapplication/gradlew -b deploy.gradle copyWar -b webapplication'
-      }
-    }
+                       steps{
+      	                       sh './webapplication/gradlew -b deploy.gradle copyWar -b webapplication'
+      		       }
+                }
 	}
 }
