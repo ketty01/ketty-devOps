@@ -11,7 +11,7 @@ pipeline{
 			steps{
 				echo 'Runnig unit test'
 				sh './quickstart/gradlew test -p quickstart'
-				junit '**/build/test_results/test/*.xml'
+				junit '**/test-results/test/*.xml'
 			}
 		}
 		stage('Publish'){
@@ -31,7 +31,7 @@ pipeline{
 		stage('Testing_webapplication'){
 			steps{
 				sh './webapplication/gradlew test -p webapplication'
-				junit '**/reports/tests/test/*.hml'
+				archiveArtifacts artifacts: '**/reports/tests/test/*.hml'
 			}
 		}
 		stage('Security_webapplication'){
