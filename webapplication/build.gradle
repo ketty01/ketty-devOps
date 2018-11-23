@@ -6,9 +6,17 @@ buildscript {
         classpath 'org.akhikhl.gretty:gretty:2.0.0'
     }
 }
+
+plugins {
+  id "org.sonarqube" version "2.6.2"
+  id "org.owasp.dependencycheck" version "3.3.4"
+}
+
 apply plugin: 'org.akhikhl.gretty'
 
 apply plugin: 'war'
+
+apply plugin: 'jacoco'
 
 repositories {
     jcenter()
@@ -16,9 +24,29 @@ repositories {
 
 dependencies {
     compile group: 'commons-io', name: 'commons-io', version: '1.4'
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
     compile group: 'log4j', name: 'log4j', version: '1.2.15', ext: 'jar'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
 gretty {
     httpPort = 8181
+    jacocoEnabled false
 }
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport

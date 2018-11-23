@@ -1,7 +1,5 @@
 package org.gradle;
 
-import org.apache.commons.collections.list.GrowthList;
-
 public class Person {
     private final String name;
     private final String LastName;
@@ -23,7 +21,6 @@ public class Person {
         this.state = state;
         this.surname = surname;
         this.placeBorn = placeBorn;
-        new GrowthList();
     }
 
     public String getName() {
