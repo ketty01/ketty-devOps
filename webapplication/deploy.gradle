@@ -10,7 +10,7 @@ remotes {
   dev_server {
     host = '10.28.138.124'
     user = 'ubuntu'
-    identity = file("C:/Users/Admin/Desktop/test/windowsk.pem")
+    identity = file("./windowsk.pem")
   }
   qa_server {
     host = '10.28.115.178'

@@ -64,3 +64,78 @@ pipelines:
                     destination: html
               tabs:
                 OWASP: html/dependency-check-report.html
+  kc-webapplication-ci:
+    group: Application
+    materials:
+      repo:
+        git: https://github.com/devops-at07/ketty-devOps.git
+        branch: master
+        whitelist:
+            - webapplication/**/*
+    stages:
+      - Build:
+          jobs:
+            Building:
+              tasks:
+                - exec:
+                    working_directory: webapplication
+                    command: ./gradlew
+                    arguments:
+                      - clean
+                      - assemble
+
+              artifacts:
+                - build:
+                    source: webapplication/build/libs/*.jar
+                    destination: jar
+      - Test:
+          jobs:
+            Unit_Test:
+              tasks:
+                - exec:
+                    working_directory: webapplication
+                    command: ./gradlew
+                    arguments:
+                      - test
+              artifacts:
+                - build:
+                    source: webapplication/build/reports/tests/test/**/*
+                    destination: html
+                - test:
+                    source: webapplication/build/test-results/test/*.xml
+                    destination: xml
+              tabs:
+                unit_test: html/index.html
+      - Security:
+          jobs:
+            Sonarqube:
+              tasks:
+                - exec:
+                    working_directory: webapplication
+                    command: ./gradlew
+                    arguments:
+                      - sonarqube
+            Owasp:
+              tasks:
+                - exec:
+                    working_directory: webapplication
+                    command: ./gradlew
+                    arguments:
+                      - dependencyCheckAnalyze
+              artifacts:
+                - build:
+                    source: webapplication/build/reports/**/*
+                    destination: html
+              tabs:
+                OWASP: html/dependency-check-report.html   
+      - Deploy:
+          jobs:
+            deploy_gradle: 
+              tasks:
+                - exec:
+                   working_directory: webapplication
+                   command: ./gradlew
+                   arguments:
+                    - -b
+                    - deploy.gradle
+                    - copyWar

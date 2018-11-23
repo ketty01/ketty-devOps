@@ -11,7 +11,7 @@ pipeline{
 			steps{
 				echo 'Runnig unit test'
 				sh './quickstart/gradlew test -p quickstart'
-				junit '**/test-results/test/*.xml'
+				junit '**/build/test_results/test/*.xml'
 			}
 		}
 		stage('Publish'){
@@ -19,6 +19,26 @@ pipeline{
 				echo 'Publishing Artifact'
 				sh './gradlew uploadArchives -p quickstart'
 				archiveArtifacts artifacts: '**/repos/*.jar'
+			}
+		}
+		stage('Build'){
+			steps{
+				sh './webapplication/gradlew clean assemble -p webapplication'
+				sh './webapplication/gradlew uploadArchives -p webapplication'
+				archiveArtifacts artifacts: '**/repos/*.war'
+			}
+		}
+		stage('Testing'){
+			steps{
+				sh './webapplication/gradlew test -p webapplication'
+				junit '**/reports/tests/test/*.hml'
+			}
+		}
+		stage('Security'){
+			steps{
+				sh './webapplication/gradlew sonarqube'
+				sh './webapplication/gradlew dependencyCheckAnalyze
+				archiveArtifacts artifacts: '**/repos/*.war'
 			}
 		}
 	}
