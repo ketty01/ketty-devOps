@@ -34,7 +34,7 @@ Vagrant.configure('2') do |config|
 
      config.vm.define 'linux-server-20' do |s|
        s.vm.provider :openstack do |os, override|
-         os.server_name = 'AT07EYHA02'
+         os.server_name = 'AT07kCV02'
          os.flavor = 'f2.lab.large'
          override.vm.synced_folder '.', '/vagrant', disabled: true
        s.vm.provision "shell", inline: <<-SHELL
